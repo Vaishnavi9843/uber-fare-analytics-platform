@@ -38,3 +38,21 @@ def split_dataset(X, y,test_size=0.2,random_state=42):
         random_state=random_state
     )
 
+def get_feature_columns(df):
+    """
+    Return the feature columns used for model training.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Processed dataset.
+
+    Returns
+    -------
+    list
+        Feature column names.
+    """
+
+    X, _ = prepare_features(df)
+
+    return X.columns.tolist()

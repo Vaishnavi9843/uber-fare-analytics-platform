@@ -27,5 +27,3 @@ FEATURE_DATA_PATH = PROCESSED_DATA_DIR / "uber_feature_engineered.csv"
 MODEL_PATH = MODEL_DIR / "random_forest_model.pkl"
 
 BEST_MODEL_PATH = MODEL_DIR / "best_random_forest.pkl"
-
-FEATURE_COLUMNS_PATH = MODEL_DIR / "feature_columns.pkl"
