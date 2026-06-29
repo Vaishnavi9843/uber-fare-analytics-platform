@@ -4,22 +4,16 @@ predict.py
 End-to-end fare prediction pipeline.
 """
 
+import joblib
 import pandas as pd
 
+from src.config import FEATURE_COLUMNS_PATH
 from src.feature_engineering import engineer_features
 
 
 def prepare_prediction_data(input_data):
     """
     Convert user input into a DataFrame and engineer features.
-
-    Parameters
-    ----------
-    input_data : dict
-
-    Returns
-    -------
-    pd.DataFrame
     """
 
     df = pd.DataFrame([input_data])
@@ -28,6 +22,7 @@ def prepare_prediction_data(input_data):
 
     drop_columns = [
         "key",
+        "fare_amount",
         "pickup_datetime",
         "pickup_day",
     ]
@@ -37,22 +32,19 @@ def prepare_prediction_data(input_data):
         errors="ignore",
     )
 
+    feature_columns = joblib.load(FEATURE_COLUMNS_PATH)
+
+    X = X.reindex(
+        columns=feature_columns,
+        fill_value=0,
+    )
+
     return X
 
 
 def predict_fare(model, input_data):
     """
     Predict Uber fare.
-
-    Parameters
-    ----------
-    model : sklearn model
-
-    input_data : dict
-
-    Returns
-    -------
-    float
     """
 
     X = prepare_prediction_data(input_data)

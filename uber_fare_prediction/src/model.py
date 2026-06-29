@@ -8,7 +8,7 @@ import joblib
 
 from sklearn.ensemble import RandomForestRegressor
 
-from src.config import MODEL_PATH
+from src.config import MODEL_PATH, FEATURE_COLUMNS_PATH
 
 
 def train_random_forest(
@@ -36,21 +36,21 @@ def train_random_forest(
 
     return model
 
-def save_model(model, path=MODEL_PATH):
+def save_model(
+    model,
+    feature_columns,
+    model_path=MODEL_PATH,
+    feature_path=FEATURE_COLUMNS_PATH,
+):
     """
-    Save a trained model.
-
-    Parameters
-    ----------
-    model : sklearn model
-
-    path : Path
-        Destination path.
+    Save the trained model and the feature column order.
     """
 
-    joblib.dump(model, path)
+    joblib.dump(model, model_path)
+    joblib.dump(feature_columns, feature_path)
 
-    print(f"Model saved to:\n{path}")
+    print(f"Model saved to:\n{model_path}")
+    print(f"Feature columns saved to:\n{feature_path}")
 
 
 def load_model(path=MODEL_PATH):
