@@ -2,6 +2,7 @@
 
 import streamlit as st
 import pandas as pd
+from pathlib import Path
 
 from src.config import (
     FEATURE_DATA_PATH,
