@@ -13,6 +13,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 import streamlit as st
+from src.dashboard_utils import footer
 
 st.title("📖 About This Project")
 
@@ -248,3 +249,5 @@ The result is a maintainable, modular, and extensible machine learning
 application that serves as a foundation for future Data Engineering and
 MLOps enhancements.
 """)
+
+footer()

@@ -17,6 +17,7 @@ from src.dashboard_utils import (
     load_model_comparison,
     load_feature_importance,
     load_random_search_results,
+    footer,
 )
 
 st.title("📈 Model Performance")
@@ -175,3 +176,5 @@ The Random Forest model provides strong predictive performance
 for Uber fare estimation.
 """
 )
+
+footer()

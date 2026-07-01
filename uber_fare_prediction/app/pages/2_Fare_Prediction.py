@@ -17,6 +17,7 @@ from datetime import datetime, time
 
 from src.model import load_model
 from src.predict import predict_fare
+from src.dashboard_utils import footer
 
 # ======================================================
 # Load Model
@@ -152,5 +153,13 @@ if submitted:
     st.divider()
 
     st.success(
-        f"Estimated Uber Fare: **${prediction:.2f}**"
+        f"""
+    # 💰 Estimated Fare
+
+    ## ${prediction:.2f}
+
+    The prediction was generated using the trained Random Forest model.
+    """
     )
+
+footer()

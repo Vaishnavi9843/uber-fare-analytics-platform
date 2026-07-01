@@ -20,6 +20,7 @@ from src.dashboard_utils import (
     section_header,
     dataset_preview,
     download_dataset,
+    footer,
 )
 
 # ======================================================
@@ -243,3 +244,5 @@ section_header(
 dataset_preview(df)
 
 download_dataset(df)
+
+footer()

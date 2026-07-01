@@ -139,3 +139,11 @@ def download_dataset(df):
         file_name="uber_dataset.csv",
         mime="text/csv",
     )
+
+def footer():
+
+    st.divider()
+
+    st.caption(
+        "Built with Python • Streamlit • Scikit-Learn • Plotly"
+    )

@@ -13,6 +13,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 import streamlit as st
 
+from app.styles import load_css
 
 # --------------------------------------------------
 # Page Configuration
@@ -24,7 +25,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
-
+load_css()
 
 # --------------------------------------------------
 # Sidebar
@@ -52,6 +53,15 @@ st.sidebar.markdown(
 """
 )
 
+with st.sidebar:
+
+    st.title("🚖 Uber Analytics")
+
+    st.caption(
+        "Machine Learning • Data Engineering • MLOps"
+    )
+
+    st.divider()
 
 # --------------------------------------------------
 # Main Title
