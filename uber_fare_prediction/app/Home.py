@@ -1,5 +1,4 @@
-"""
-streamlit_app.py
+"""streamlit_app.py
 
 Main entry point for the Uber Fare Analytics Platform.
 """
@@ -11,9 +10,11 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
+
 import streamlit as st
 
 from app.styles import load_css
+from src.dashboard_utils import get_dataset_statistics
 
 # --------------------------------------------------
 # Page Configuration
@@ -28,21 +29,17 @@ st.set_page_config(
 load_css()
 
 # --------------------------------------------------
-# Sidebar
+# Sidebar (single block)
 # --------------------------------------------------
 
-st.sidebar.title("🚖 Uber Fare Analytics Platform")
+with st.sidebar:
+    st.title("🚖 Uber Analytics")
+    st.caption("Machine Learning • Data Engineering • MLOps")
+    st.divider()
 
-st.sidebar.success(
-    "Select a page from the sidebar."
-)
-
-st.sidebar.markdown("---")
-
-st.sidebar.markdown(
-    """
-### Project Workflow
-
+    st.markdown("### Project Workflow")
+    st.markdown(
+        """
 - Data Understanding
 - Data Cleaning
 - Exploratory Data Analysis
@@ -51,17 +48,7 @@ st.sidebar.markdown(
 - Model Optimization
 - Interactive Dashboard
 """
-)
-
-with st.sidebar:
-
-    st.title("🚖 Uber Analytics")
-
-    st.caption(
-        "Machine Learning • Data Engineering • MLOps"
     )
-
-    st.divider()
 
 # --------------------------------------------------
 # Main Title
@@ -70,7 +57,7 @@ with st.sidebar:
 st.title("🚖 Uber Fare Analytics Platform")
 
 st.markdown(
-"""
+    """
 ### End-to-End Machine Learning & Data Analytics Project
 
 This platform predicts Uber fares using Machine Learning while also providing interactive analytics and insights into historical trip data.
@@ -79,9 +66,7 @@ The application was built as a complete ML workflow—from raw data preprocessin
 """
 )
 
-
 st.divider()
-
 
 # --------------------------------------------------
 # Project Overview
@@ -90,7 +75,7 @@ st.divider()
 st.header("📌 Project Overview")
 
 st.write(
-"""
+    """
 The project follows an end-to-end machine learning pipeline.
 
 It includes:
@@ -106,42 +91,28 @@ It includes:
 """
 )
 
-
 # --------------------------------------------------
 # Dataset Information
 # --------------------------------------------------
 
 st.header("📊 Dataset")
 
+stats = get_dataset_statistics()
+
 col1, col2 = st.columns(2)
 
 with col1:
-
-    st.metric(
-        "Rows",
-        "199,999"
-    )
-
-    st.metric(
-        "Features",
-        "11"
-    )
+    st.metric("Rows", f"{stats['rows']:,}")
+    st.metric("Total Features", f"{stats['features']}")
 
 with col2:
+    st.metric("Average Fare", f"${stats['avg_fare']:.2f}")
+    st.metric("Average Distance", f"{stats['avg_distance']:.2f} km")
 
-    st.metric(
-        "Target Variable",
-        "Fare Amount"
-    )
-
-    st.metric(
-        "Model",
-        "Random Forest"
-    )
-
+st.metric("Average Passengers", f"{stats['avg_passengers']:.2f}")
 
 st.info(
-"""
+    """
 The dataset contains Uber trip records including:
 
 - Pickup Coordinates
@@ -156,7 +127,6 @@ Additional temporal and spatial features were engineered to improve model perfor
 
 st.divider()
 
-
 # --------------------------------------------------
 # Technology Stack
 # --------------------------------------------------
@@ -166,9 +136,7 @@ st.header("🛠 Technology Stack")
 col1, col2, col3 = st.columns(3)
 
 with col1:
-
     st.subheader("Data Processing")
-
     st.markdown(
         """
 - Python
@@ -178,9 +146,7 @@ with col1:
     )
 
 with col2:
-
     st.subheader("Machine Learning")
-
     st.markdown(
         """
 - Scikit-Learn
@@ -190,9 +156,7 @@ with col2:
     )
 
 with col3:
-
     st.subheader("Visualization")
-
     st.markdown(
         """
 - Streamlit
@@ -202,7 +166,6 @@ with col3:
 
 st.divider()
 
-
 # --------------------------------------------------
 # Project Pipeline
 # --------------------------------------------------
@@ -210,7 +173,7 @@ st.divider()
 st.header("⚙ Project Pipeline")
 
 st.markdown(
-"""
+    """
 ```text
 Uber Dataset
       │
@@ -226,7 +189,33 @@ Random Forest Model
       ▼
 Streamlit Dashboard
 
+```
 """
 )
 
 st.divider()
+
+# --------------------------------------------------
+# Project Status
+# --------------------------------------------------
+
+st.header("📌 Project Status")
+
+st.markdown(
+    """
+🟢 Data Pipeline
+
+🟢 Machine Learning
+
+🟢 Dashboard
+
+🟡 FastAPI (Upcoming)
+
+🟡 Docker
+
+🟡 PostgreSQL
+
+🟡 MLflow
+"""
+)
+

@@ -18,12 +18,17 @@ def load_css():
 
         /* Metric cards */
         div[data-testid="metric-container"]{
-            background-color:#0E1117;
-            border:1px solid #e6e6e6;
             padding:15px;
             border-radius:12px;
             box-shadow:0px 2px 6px rgba(0,0,0,0.08);
+            transition: transform 120ms ease, box-shadow 120ms ease;
         }
+
+        div[data-testid="metric-container"]:hover{
+            transform: translateY(-1px);
+            box-shadow:0px 6px 18px rgba(0,0,0,0.12);
+        }
+
 
         /* Buttons */
         .stButton>button{
