@@ -1,27 +1,28 @@
-"""
-model.py
+"""model.py
 
 Functions for training, saving, and loading machine learning models.
 """
 
-import joblib
+from __future__ import annotations
 
+import joblib
 from sklearn.ensemble import RandomForestRegressor
 
 from src.config import MODEL_PATH
+from src.logger import logger
 
 
 def train_random_forest(
     X_train,
     y_train,
-    n_estimators=100,
-    max_depth=20,
-    min_samples_split=5,
-    min_samples_leaf=2,
-    max_features="sqrt",
-    random_state=42,
-    n_jobs=-1,
-):
+    n_estimators: int = 100,
+    max_depth: int | None = 20,
+    min_samples_split: int = 5,
+    min_samples_leaf: int = 2,
+    max_features: str | int | float = "sqrt",
+    random_state: int = 42,
+    n_jobs: int = -1,
+) -> RandomForestRegressor:
     model = RandomForestRegressor(
         n_estimators=n_estimators,
         max_depth=max_depth,
@@ -33,38 +34,23 @@ def train_random_forest(
     )
 
     model.fit(X_train, y_train)
-
     return model
+
 
 def save_model(
     model,
-    feature_columns,
-    model_path=MODEL_PATH
-):
-    """
-    Save the trained model and the feature column order.
-    """
+    model_path=MODEL_PATH,
+) -> None:
+    """Save the trained model."""
 
     joblib.dump(model, model_path)
+    logger.info("Model saved to: %s", model_path)
 
-    print(f"Model saved to:\n{model_path}")
 
-
-def load_model(path=MODEL_PATH):
-    """
-    Load a trained model.
-
-    Parameters
-    ----------
-    path : Path
-
-    Returns
-    -------
-    sklearn model
-    """
+def load_model(path=MODEL_PATH) -> RandomForestRegressor:
+    """Load a trained model."""
 
     model = joblib.load(path)
-
-    print(f"Model loaded from:\n{path}")
-
+    logger.info("Model loaded from: %s", path)
     return model
+

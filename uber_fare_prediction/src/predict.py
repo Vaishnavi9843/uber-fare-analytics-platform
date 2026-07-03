@@ -1,8 +1,12 @@
-"""
-predict.py
+"""predict.py
 
 End-to-end fare prediction pipeline.
 """
+
+from __future__ import annotations
+
+from functools import lru_cache
+from typing import Any
 
 import pandas as pd
 
@@ -11,56 +15,29 @@ from src.feature_engineering import engineer_features
 from src.preprocessing import get_feature_columns
 
 
-def prepare_prediction_data(input_data):
-    """
-    Convert user input into a DataFrame and engineer features.
+@lru_cache(maxsize=1)
+def _get_feature_columns() -> list[str]:
+    processed_df = pd.read_csv(FEATURE_DATA_PATH)
+    return get_feature_columns(processed_df)
 
-    Parameters
-    ----------
-    input_data : dict
 
-    Returns
-    -------
-    pd.DataFrame
-    """
+def prepare_prediction_data(input_data: dict[str, Any]) -> pd.DataFrame:
+    """Convert user input into a DataFrame and engineer features."""
 
-    # Convert input dictionary to DataFrame
     df = pd.DataFrame([input_data])
-
-    # Apply feature engineering
     df = engineer_features(df)
 
-    # Load processed dataset to retrieve feature order
-    processed_df = pd.read_csv(FEATURE_DATA_PATH)
-
-    feature_columns = get_feature_columns(processed_df)
+    feature_columns = _get_feature_columns()
 
     # Keep only training features and preserve order
-    X = df.reindex(
-        columns=feature_columns,
-        fill_value=0,
-    )
-
+    X = df.reindex(columns=feature_columns, fill_value=0)
     return X
 
 
-def predict_fare(model, input_data):
-    """
-    Predict Uber fare.
-
-    Parameters
-    ----------
-    model : sklearn estimator
-
-    input_data : dict
-
-    Returns
-    -------
-    float
-    """
+def predict_fare(model: Any, input_data: dict[str, Any]) -> float:
+    """Predict Uber fare."""
 
     X = prepare_prediction_data(input_data)
-
     prediction = model.predict(X)
-
     return round(float(prediction[0]), 2)
+

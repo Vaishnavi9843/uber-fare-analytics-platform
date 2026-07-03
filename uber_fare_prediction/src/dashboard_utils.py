@@ -1,13 +1,10 @@
-
+from __future__ import annotations
 
 import streamlit as st
 import pandas as pd
-from pathlib import Path
 
-from src.config import (
-    FEATURE_DATA_PATH,
-    REPORT_DIR,
-)
+from src.config import FEATURE_DATA_PATH, REPORT_DIR
+from src.logger import logger
 
 
 # ============================================================
@@ -15,71 +12,64 @@ from src.config import (
 # ============================================================
 
 @st.cache_data
-def load_processed_data():
-    """
-    Load the processed feature-engineered dataset.
+def load_processed_data() -> pd.DataFrame:
+    """Load the processed feature-engineered dataset."""
 
-    Returns
-    -------
-    pd.DataFrame
-    """
-
-    return pd.read_csv(FEATURE_DATA_PATH)
-
-
-@st.cache_data
-def load_model_comparison():
-    """
-    Load model comparison report.
-
-    Returns
-    -------
-    pd.DataFrame
-    """
-
-    return pd.read_csv(
-        REPORT_DIR / "model_comparison.csv"
-    )
+    try:
+        return pd.read_csv(FEATURE_DATA_PATH)
+    except FileNotFoundError:
+        logger.error("Processed dataset not found: %s", FEATURE_DATA_PATH)
+        st.error(
+            "Processed dataset not found. Please generate it using the notebook pipeline."
+        )
+        st.stop()
 
 
 @st.cache_data
-def load_feature_importance():
-    """
-    Load feature importance report.
+def load_model_comparison() -> pd.DataFrame:
+    """Load model comparison report."""
 
-    Returns
-    -------
-    pd.DataFrame
-    """
-
-    return pd.read_csv(
-        REPORT_DIR / "feature_importance.csv"
-    )
+    path = REPORT_DIR / "model_comparison.csv"
+    try:
+        return pd.read_csv(path)
+    except FileNotFoundError:
+        logger.error("Report not found: %s", path)
+        st.error("Model comparison report not found.")
+        st.stop()
 
 
 @st.cache_data
-def load_random_search_results():
-    """
-    Load Random Search CV results.
+def load_feature_importance() -> pd.DataFrame:
+    """Load feature importance report."""
 
-    Returns
-    -------
-    pd.DataFrame
-    """
+    path = REPORT_DIR / "feature_importance.csv"
+    try:
+        return pd.read_csv(path)
+    except FileNotFoundError:
+        logger.error("Report not found: %s", path)
+        st.error("Feature importance report not found.")
+        st.stop()
 
-    return pd.read_csv(
-        REPORT_DIR / "random_search_results.csv"
-    )
+
+@st.cache_data
+def load_random_search_results() -> pd.DataFrame:
+    """Load Random Search CV results."""
+
+    path = REPORT_DIR / "random_search_results.csv"
+    try:
+        return pd.read_csv(path)
+    except FileNotFoundError:
+        logger.error("Report not found: %s", path)
+        st.error("Random search results not found.")
+        st.stop()
 
 
 # ============================================================
 # Section Header
 # ============================================================
 
-def section_header(title, description=None):
-    """
-    Display a section title with an optional description.
-    """
+def section_header(title: str, description: str | None = None) -> None:
+    """Display a section title with an optional description."""
 
     st.header(title)
 
@@ -93,57 +83,51 @@ def section_header(title, description=None):
 # KPI Card
 # ============================================================
 
-def metric_card(label, value, delta=None):
-    """
-    Display a metric card.
-    """
+def metric_card(label: str, value, delta=None) -> None:
+    """Display a metric card."""
 
-    st.metric(
-        label=label,
-        value=value,
-        delta=delta,
-    )
+    st.metric(label=label, value=value, delta=delta)
 
 
 # ============================================================
 # Dataset Preview
 # ============================================================
 
-def dataset_preview(df, rows=15):
-    """
-    Display dataset preview.
-    """
+def dataset_preview(df: pd.DataFrame, rows: int = 15) -> None:
+    """Display dataset preview."""
 
     st.subheader("Dataset Preview")
 
-    st.dataframe(
-        df.head(rows),
-        use_container_width=True,
-    )
+    st.dataframe(df.head(rows), use_container_width=True)
 
 
 # ============================================================
 # Download Button
 # ============================================================
 
-def download_dataset(df):
-    """
-    Download dataset as CSV.
-    """
+def download_dataframe(df: pd.DataFrame, filename: str) -> None:
+    """Download a dataframe as CSV."""
 
     csv = df.to_csv(index=False).encode("utf-8")
 
     st.download_button(
         label="⬇ Download Dataset",
         data=csv,
-        file_name="uber_dataset.csv",
+        file_name=filename,
         mime="text/csv",
     )
 
-def footer():
 
+# Backward-compatible wrapper
+
+def download_dataset(df: pd.DataFrame) -> None:
+    """Download the default Uber dataset as CSV."""
+
+    download_dataframe(df, filename="uber_dataset.csv")
+
+
+def footer() -> None:
     st.divider()
 
-    st.caption(
-        "Built with Python • Streamlit • Scikit-Learn • Plotly"
-    )
+    st.caption("Built with Python • Streamlit • Scikit-Learn • Plotly")
+

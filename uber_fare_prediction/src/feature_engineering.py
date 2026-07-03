@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-EARTH_RADIUS_KM = 6371
+from src.config import EARTH_RADIUS_KM 
 
 def add_time_features(df: pd.DataFrame) -> pd.DataFrame:
     """
