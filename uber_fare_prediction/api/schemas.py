@@ -19,6 +19,9 @@ class PredictionRequest(BaseModel):
 
 class PredictionResponse(BaseModel):
     predicted_fare: float
+    currency: str
+    model: str
+    version: str
 
 
 class HealthResponse(BaseModel):

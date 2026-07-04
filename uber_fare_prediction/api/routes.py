@@ -65,6 +65,9 @@ def predict(request: PredictionRequest):
 
         return PredictionResponse(
             predicted_fare=prediction,
+            currency="USD",
+            model="Random Forest Regressor",
+            version="1.0.0",
         )
 
     except Exception as e:
