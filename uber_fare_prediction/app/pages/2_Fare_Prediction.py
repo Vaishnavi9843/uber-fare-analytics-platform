@@ -16,23 +16,10 @@ if str(PROJECT_ROOT) not in sys.path:
 
 import streamlit as st
 
-from src.model import load_model
-from src.predict import predict_fare
 from src.dashboard_utils import footer, calculate_trip_distance, create_trip_summary
 from src.validators import validate_coordinates
-
-
-# ======================================================
-# Load Model
-# ======================================================
-
-@st.cache_resource
-def get_model():
-    return load_model()
-
-
-model = get_model()
-
+import requests
+API_URL = "http://127.0.0.1:8000/predict"
 
 # ======================================================
 # Page Title
@@ -197,7 +184,24 @@ if submitted:
     }
 
     with st.spinner("Predicting fare..."):
-        prediction = predict_fare(model, input_data)
+
+        response = requests.post(
+            API_URL,
+            json={
+                "pickup_longitude": pickup_longitude,
+                "pickup_latitude": pickup_latitude,
+                "dropoff_longitude": dropoff_longitude,
+                "dropoff_latitude": dropoff_latitude,
+                "passenger_count": passenger_count,
+                "pickup_datetime": pickup_datetime.isoformat(),
+            },
+        )
+
+        if response.status_code == 200:
+            prediction = response.json()["predicted_fare"]
+        else:
+            st.error(response.json())
+            st.stop()
 
     st.divider()
 
