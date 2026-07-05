@@ -19,7 +19,7 @@ import streamlit as st
 from src.dashboard_utils import footer, calculate_trip_distance, create_trip_summary
 from src.validators import validate_coordinates
 import requests
-API_URL = "http://127.0.0.1:8000/predict"
+from src.config import PREDICTION_API_URL
 
 # ======================================================
 # Page Title
