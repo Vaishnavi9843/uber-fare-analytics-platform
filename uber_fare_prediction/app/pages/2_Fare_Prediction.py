@@ -19,7 +19,7 @@ import streamlit as st
 from src.dashboard_utils import footer, calculate_trip_distance, create_trip_summary
 from src.validators import validate_coordinates
 import requests
-from src.config import API_BASE_URL
+from src.config import PREDICTION_API_URL
 
 # ======================================================
 # Page Title
@@ -186,7 +186,7 @@ if submitted:
     with st.spinner("Predicting fare..."):
 
         response = requests.post(
-            API_BASE_URL,
+            PREDICTION_API_URL,
             json={
                 "pickup_longitude": pickup_longitude,
                 "pickup_latitude": pickup_latitude,
