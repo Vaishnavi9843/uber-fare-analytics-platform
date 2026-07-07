@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 # Root Directory
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -43,6 +44,8 @@ MAX_PASSENGERS = 6
 
 EARTH_RADIUS_KM = 6371
 
-API_BASE_URL = "http://127.0.0.1:8000"
-
+API_BASE_URL = os.getenv(
+    "API_BASE_URL",
+    "http://127.0.0.1:8000",
+)
 PREDICTION_API_URL = f"{API_BASE_URL}/predict"
