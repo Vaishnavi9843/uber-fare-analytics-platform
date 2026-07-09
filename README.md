@@ -1,48 +1,4 @@
 <img width="1024" height="1536" alt="Uber_architecture" src="https://github.com/user-attachments/assets/cc8900c0-94ff-4d21-9499-097014969689" />
-# 🚖 Uber Fare Analytics Platform
-
-> End-to-End Machine Learning, Data Analytics & MLOps Project
-
-Predict Uber fares using Machine Learning while exploring historical trip data through an interactive dashboard built with Streamlit, FastAPI, Docker, and GitHub Actions.
-
-> **Replace the image placeholders with your screenshots stored under `docs/images/`.**
-
----
-
-# Badges
-
-![Python](https://img.shields.io/badge/Python-3.12-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
-![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red)
-![Docker](https://img.shields.io/badge/Docker-Container-blue)
-![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI-success)
-![Pytest](https://img.shields.io/badge/Pytest-Testing-yellow)
-![MIT](https://img.shields.io/badge/License-MIT-purple)
-
----
-
-# Table of Contents
-
-1. Project Overview
-2. Features
-3. Screenshots
-4. Architecture
-5. ML Workflow
-6. Tech Stack
-7. Project Structure
-8. Installation
-9. Running the Project
-10. Docker
-11. API Documentation
-12. Testing
-13. CI/CD
-14. Performance
-15. Dataset
-16. Future Improvements
-17. License
-18. Author
-
----
 
 # Project Overview
 
@@ -76,48 +32,6 @@ It includes:
 - Modular Project Structure
 
 ---
-
-# Screenshot Placeholders
-
-Create:
-
-docs/images/
-
-and add:
-
-- home.png
-- analytics.png
-- prediction.png
-- performance.png
-- about.png
-- swagger.png
-- docker-build.png
-- github-actions.png
-- architecture.png
-
-Then replace these:
-
-![Home](docs/images/home.png)
-
-![Analytics](docs/images/analytics.png)
-
-![Prediction](docs/images/prediction.png)
-
-![Performance](docs/images/performance.png)
-
-![About](docs/images/about.png)
-
-![Swagger](docs/images/swagger.png)
-
-![Docker](docs/images/docker-build.png)
-
-![GitHub Actions](docs/images/github-actions.png)
-
----
-
-# Architecture
-
-![Architecture](docs/images/architecture.png)
 
 ## Layers
 
